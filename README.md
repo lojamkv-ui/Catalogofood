@@ -9,7 +9,8 @@ Aplicativo web (HTML puro, sem dependências) de **catálogo / cardápio digital
 | Área | O que faz |
 |---|---|
 | **Cardápio digital** | 22 itens em 7 categorias (combos, burgers, pizzas, acompanhamentos, bebidas, sobremesas), busca em tempo real, filtros por categoria, tags de destaque. |
-| **Login de usuário** | Modal com nome + WhatsApp (máscara de telefone). Sessão persistida em `localStorage`, avatar com iniciais, menu de conta e logout. |
+| **Login de usuário** | Modal com abas **Cliente / Loja**. Cliente entra com nome + WhatsApp (máscara de telefone); loja usa o acesso demo `loja@mvcfood.com` / `mvkv123`. Sessões persistidas em `localStorage`, avatar, menu de conta e logout. |
+| **Área da loja** | Painel em `#/loja` com estatísticas, filtros de pedidos, avanço manual de status, endereço/cliente e botão de WhatsApp. Ao entrar como loja, a simulação automática de status fica pausada. |
 | **Entrega com localização** | Botão **“Usar minha localização (GPS)”** (`navigator.geolocation`) → calcula distância até a loja (Haversine) e ajusta tempo de entrega e status. Fallback com formulário manual (CEP, rua, número, bairro, referência, observações). Alternância **Entrega 🛵 / Retirada 🏪**. |
 | **Sacola** | Drawer lateral com stepper de quantidade, barra de progresso para **frete grátis** (acima de R$ 89), resumo com subtotal/taxa/total. |
 | **Pagamento** | Pix 💠, Cartão 💳 ou Dinheiro 💵 (com campo de troco). |
@@ -32,6 +33,15 @@ python3 -m http.server 8080
 ```
 
 > **Nota:** geolocalização e Web Notifications exigem contexto seguro (`https` ou `localhost`).
+
+## 🏪 Área da loja (demo)
+
+Abra **Entrar → Loja** para acessar o painel interno. O acesso demonstrativo é:
+
+- E-mail: `loja@mvcfood.com`
+- Senha: `mvkv123`
+
+O painel fica em `#/loja` e exibe estatísticas, pedidos, dados do cliente, endereço de entrega, WhatsApp e o botão **“Avançar status”**. No modo loja, o avanço automático usado na simulação do cliente fica pausado para que cada status seja controlado manualmente.
 
 ## ⚙️ Configuração
 
