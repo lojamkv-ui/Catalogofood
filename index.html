@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <title>MVKV Food — Cardápio Online</title>
 <meta name="description" content="Peça online no MVKV Food: cardápio digital, entrega em até 40 min, confirmação pelo WhatsApp e acompanhamento em tempo real." />
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='0.9em' font-size='90'%3E%F0%9F%8D%94%3C/text%3E%3C/svg%3E" />
+<link rel="icon" type="image/png" href="assets/favicon.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -80,9 +80,8 @@ img{max-width:100%}
 .logo{display:flex;align-items:center;gap:9px;font-weight:800;font-size:19px;letter-spacing:-.3px;white-space:nowrap}
 .logo .logo-mark{
   width:36px;height:36px;border-radius:12px;
-  background:linear-gradient(135deg,var(--brand),#ff8a3d);
-  display:grid;place-items:center;font-size:19px;
-  box-shadow:0 4px 10px rgba(255,90,31,.35);
+  object-fit:cover;display:block;
+  box-shadow:0 4px 10px rgba(29,27,24,.22);
 }
 .logo b{color:var(--brand)}
 .nav{display:flex;gap:4px;margin-left:8px}
@@ -483,8 +482,8 @@ main{min-height:60vh}
 /* login */
 .login-logo{
   width:58px;height:58px;border-radius:18px;margin:0 auto 14px;
-  background:linear-gradient(135deg,var(--brand),#ff8a3d);display:grid;place-items:center;font-size:30px;
-  box-shadow:0 10px 24px rgba(255,90,31,.35);
+  object-fit:cover;display:block;
+  box-shadow:0 10px 24px rgba(29,27,24,.22);
 }
 .login-card .modal-head{text-align:center}
 .login-card .modal-head .close-x{top:12px;right:12px}
@@ -694,7 +693,7 @@ footer{
 .footer-inner h5{color:#fff;font-size:13px;margin-bottom:12px;letter-spacing:.4px;text-transform:uppercase}
 .footer-inner p,.footer-inner li{font-size:13px;line-height:1.8;list-style:none}
 .footer-brand{display:flex;align-items:center;gap:9px;font-weight:800;font-size:17px;color:#fff;margin-bottom:10px}
-.footer-brand .logo-mark{width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,var(--brand),#ff8a3d);display:grid;place-items:center;font-size:16px}
+.footer-brand .logo-mark{width:32px;height:32px;border-radius:10px;object-fit:cover;display:block;box-shadow:0 3px 8px rgba(0,0,0,.35)}
 .footer-bottom{max-width:1080px;margin:0 auto;padding:0 16px 26px;font-size:11.5px;color:rgba(255,255,255,.4)}
 
 /* ============================================================
@@ -744,7 +743,7 @@ footer{
 <header class="topbar">
   <div class="topbar-inner">
     <a class="logo" href="#/" aria-label="MVKV Food — início">
-      <span class="logo-mark">🍔</span>
+      <img class="logo-mark" src="assets/logo-mark.png" alt="Logo MVKV Food" draggable="false" />
       MVKV<b>food</b>
     </a>
     <nav class="nav" aria-label="Navegação principal">
@@ -834,7 +833,7 @@ footer{
 <footer>
   <div class="footer-inner">
     <div>
-      <div class="footer-brand"><span class="logo-mark">🍔</span> MVKVfood</div>
+      <div class="footer-brand"><img class="logo-mark" src="assets/logo-mark.png" alt="Logo MVKV Food" draggable="false" /> MVKVfood</div>
       <p>Sua rede de fast food favorita, agora no digital. Peça pelo app, confirme no WhatsApp e receba quentinho. 🧡</p>
     </div>
     <div>
@@ -991,7 +990,7 @@ footer{
   <div class="modal-card login-card">
     <div class="modal-head">
       <button class="close-x" id="loginClose" aria-label="Fechar">✕</button>
-      <div class="login-logo">🍔</div>
+      <img class="login-logo" src="assets/logo-mark.png" alt="Logo MVKV Food" draggable="false" />
       <h3>Entrar na sua conta</h3>
       <p>Para confirmar o pedido, precisamos saber quem é você (só aqui no seu navegador — é uma demo).</p>
     </div>
@@ -1907,3 +1906,11 @@ init();
 </script>
 </body>
 </html>
+l>
+t();
+
+})();
+</script>
+</body>
+</html>
+>
