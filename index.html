@@ -766,10 +766,10 @@ footer{
 }
 
 /* ============================================================
-   Login — abas Cliente / Loja
+   Login — abas Cliente / Loja / Entregador
    ============================================================ */
 .login-tabs{
-  display:grid;grid-template-columns:1fr 1fr;gap:6px;
+  display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;
   background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:5px;margin-bottom:16px;
 }
 .login-tab{
@@ -863,6 +863,16 @@ footer{
   .store-head .sh-actions{margin-left:0;width:100%}
   .store-order .so-grid{grid-template-columns:1fr}
 }
+
+/* ============================================================
+   Painel do entregador (#/entregador)
+   Reutiliza os estilos do painel da loja (.store-head, .stat-card,
+   .store-order, stepper...) + ajuste do stepper de 5 etapas no mobile
+   ============================================================ */
+@media (max-width:760px){
+  #viewDelivery .stepper-track{overflow-x:auto;scrollbar-width:thin;padding-bottom:4px}
+  #viewDelivery .step{min-width:100px}
+}
 </style>
 </head>
 <body>
@@ -881,6 +891,7 @@ footer{
         <span class="nav-badge hidden" id="navOrderBadge">0</span>
       </a>
       <a href="#/loja" id="navStore" class="hidden">🏪 Painel da loja</a>
+      <a href="#/entregador" id="navDelivery" class="hidden">🛵 Painel do entregador</a>
     </nav>
     <div class="topbar-right">
       <button class="loc-pill" id="btnLocation" title="Endereço de entrega">
@@ -989,6 +1000,39 @@ footer{
       <div class="store-list" id="storeList"></div>
     </div>
   </section>
+
+  <!-- ============================ PAINEL DO ENTREGADOR ============================ -->
+  <section id="viewDelivery" class="wrap hidden">
+    <div id="deliveryLock" class="store-lock hidden">
+      <span class="sl-ico">🛵</span>
+      <b>Área restrita do entregador</b>
+      <span>Entre com o acesso do entregador para ver as entregas atribuídas a você e avançar cada etapa da entrega.<br />
+      Demo: <b>entregador@mkvfood.com</b> · senha <b>mvkv123</b>.</span>
+      <button class="btn-brand" id="btnDeliveryGate" style="max-width:300px;margin:0 auto">Entrar como entregador 🛵</button>
+    </div>
+
+    <div id="deliveryPanel" class="hidden">
+      <div class="store-head">
+        <div>
+          <h1>🛵 Painel do entregador</h1>
+          <p id="deliverySub">—</p>
+        </div>
+        <div class="sh-actions">
+          <span class="mode-pill"><i></i> modo entregador · você avança as etapas</span>
+          <a class="btn btn-line" href="#/">🧾 Abrir cardápio</a>
+        </div>
+      </div>
+
+      <div class="stats-grid" id="deliveryStats"></div>
+
+      <div class="store-filter" id="deliveryFilter">
+        <button class="chip active" data-dfilter="ativas">🔥 Ativas</button>
+        <button class="chip" data-dfilter="concluidas">✅ Concluídas</button>
+        <button class="chip" data-dfilter="todas">📋 Todas</button>
+      </div>
+      <div class="store-list" id="deliveryList"></div>
+    </div>
+  </section>
 </main>
 
 <!-- ============================ FOOTER ============================ -->
@@ -1023,6 +1067,7 @@ footer{
   <a href="#/" id="mnavHome" class="active"><span class="mn-ico">🍔</span>Cardápio</a>
   <a href="#/pedidos" id="mnavOrders"><span class="mn-ico">🧾</span>Pedidos<span class="nav-badge hidden" id="mnavOrderBadge">0</span></a>
   <a href="#/loja" id="mnavStore" class="hidden"><span class="mn-ico">🏪</span>Painel</a>
+  <a href="#/entregador" id="mnavDelivery" class="hidden"><span class="mn-ico">🛵</span>Entregas</a>
   <a href="#" id="mnavChat"><span class="mn-ico">💬</span>Chat</a>
 </nav>
 
@@ -1161,6 +1206,7 @@ footer{
       <div class="login-tabs" id="loginTabs" role="tablist" aria-label="Tipo de acesso">
         <button class="login-tab active" data-tab="cliente" role="tab" aria-selected="true">🙋 Cliente</button>
         <button class="login-tab" data-tab="loja" role="tab" aria-selected="false">🏪 Loja</button>
+        <button class="login-tab" data-tab="entregador" role="tab" aria-selected="false">🛵 Entregador</button>
       </div>
 
       <!-- ---------- aba cliente ---------- -->
@@ -1193,6 +1239,24 @@ footer{
         </div>
         <button class="btn-brand" id="btnStoreLogin">Entrar no painel da loja</button>
         <p class="login-note">🏪 No modo loja a simulação automática de status fica <b>pausada</b> — o avanço é feito por você, pedido a pedido.</p>
+      </div>
+
+      <!-- ---------- aba entregador ---------- -->
+      <div class="login-pane hidden" id="deliveryLogin" data-pane="entregador">
+        <div class="store-hint">
+          <span>🔑</span>
+          <span>Acesso de demonstração: e-mail <code id="deliveryHintMail">entregador@mkvfood.com</code> · senha <code id="deliveryHintPass">mvkv123</code></span>
+        </div>
+        <div class="field">
+          <label>E-mail do entregador</label>
+          <input id="deliveryEmail" type="email" placeholder="entregador@mkvfood.com" autocomplete="username" />
+        </div>
+        <div class="field">
+          <label>Senha</label>
+          <input id="deliveryPass" type="password" placeholder="••••••••" autocomplete="current-password" />
+        </div>
+        <button class="btn-brand" id="btnDeliveryLogin">Entrar no painel do entregador</button>
+        <p class="login-note">🛵 No modo entregador a simulação automática fica <b>pausada</b> — as etapas (coleta → rota → entrega) são avançadas por você.</p>
       </div>
     </div>
   </div>
@@ -1243,6 +1307,7 @@ footer{
   <div class="user-menu">
     <a href="#/pedidos" id="udOrders">🧾 Meus pedidos</a>
     <a href="#/loja" id="udStore" class="hidden">🏪 Painel da loja</a>
+    <a href="#/entregador" id="udDelivery" class="hidden">🛵 Painel do entregador</a>
     <button id="udLogout">🚪 Sair da conta</button>
   </div>
 </div>
@@ -1299,7 +1364,18 @@ const CONFIG = {
   statusNames: ['Recebido','Em preparo','A caminho','Entregue'],
   statusIcons: ['📥','👨‍🍳','🛵','✅'],
   // acesso demo da área da loja (aba "Loja" no login) — troque em produção
-  storeLogin: { email:'loja@mvcfood.com', password:'mvkv123' }
+  storeLogin: { email:'loja@mvcfood.com', password:'mvkv123' },
+  // acesso demo da área do entregador (aba "Entregador" no login)
+  deliveryLogin: { email:'entregador@mkvfood.com', password:'mvkv123' },
+  // frota p/ distribuição automática — posições próximas à loja (demo)
+  couriers: [
+    { id:'carlos', name:'Carlos', email:'entregador@mkvfood.com', pos:{ lat:-23.5465, lng:-46.6300 } },
+    { id:'ana',    name:'Ana',    pos:{ lat:-23.5560, lng:-46.6405 } },
+    { id:'joao',   name:'João',   pos:{ lat:-23.5390, lng:-46.6470 } }
+  ],
+  courierBaseMin: 5,      // tempo mínimo até o entregador sair (min)
+  courierPenaltyMin: 6,   // penalidade por entrega em aberto (min)
+  defaultLegKm: 2.5       // trecho médio loja→cliente quando o cliente não passou o GPS
 };
 
 /* ---------------- Cardápio ---------------- */
@@ -1385,8 +1461,10 @@ let loginIntent = null;   // callback pós-login
 let lastOrder = null;
 let chatOpenedOnce = false;
 let storeSession = load('mkv_store_session', null);  // sessão da loja (aba "Loja")
+let deliverySession = load('mkv_delivery_session', null); // sessão do entregador (aba "Entregador")
 let loginTab = 'cliente';                            // aba ativa no modal de login
 let storeFilter = 'todos';                           // filtro do painel da loja
+let deliveryFilter = 'ativas';                       // filtro do painel do entregador
 
 /* ---------------- Toasts ---------------- */
 function toast(msg, ico='✅', type='success', ms=3800){
@@ -1457,18 +1535,28 @@ function initials(name){
 function renderUser(){
   const has = !!user;
   const hasStore = !!storeSession;
-  const logged = has || hasStore;
+  const hasDelivery = !!deliverySession;
+  const logged = has || hasStore || hasDelivery;
   $('#btnLogin').classList.toggle('hidden', logged);
   $('#btnAvatar').classList.toggle('hidden', !logged);
-  // atalhos do painel só aparecem no modo loja
+  // atalhos do painel só aparecem no modo respectivo
   ['navStore','mnavStore','udStore'].forEach(id=>{
     const el = document.getElementById(id);
     if(el) el.classList.toggle('hidden', !hasStore);
+  });
+  ['navDelivery','mnavDelivery','udDelivery'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(el) el.classList.toggle('hidden', !hasDelivery);
   });
   if(hasStore){
     $('#btnAvatar').textContent = '🏪';
     $('#udName').textContent = CONFIG.storeName;
     $('#udPhone').textContent = storeSession.email + ' · modo loja';
+  } else if(hasDelivery){
+    $('#btnAvatar').textContent = '🛵';
+    const me = myCourier();
+    $('#udName').textContent = me ? me.name : 'Entregador';
+    $('#udPhone').textContent = deliverySession.email + ' · modo entregador';
   } else if(has){
     $('#btnAvatar').textContent = initials(user.name);
     $('#udName').textContent = user.name;
@@ -1481,6 +1569,8 @@ function renderModeTags(){
   if(!tag) return;
   tag.textContent = storeSession
     ? '🏪 Modo loja ativo: a simulação automática está pausada — os status são avançados no painel da loja'
+    : deliverySession
+    ? '🛵 Modo entregador ativo: a simulação automática está pausada — as etapas são avançadas no painel do entregador'
     : '⚡ Demo: status avança automaticamente para simulação';
 }
 $('#btnLogin').addEventListener('click', ()=> openLogin(loginTab));
@@ -1505,7 +1595,7 @@ $('#btnDoLogin').addEventListener('click', ()=>{
 
 /* ---------------- Login: abas Cliente / Loja ---------------- */
 function setLoginTab(tab, focus){
-  loginTab = tab==='loja' ? 'loja' : 'cliente';
+  loginTab = (tab==='loja'||tab==='entregador') ? tab : 'cliente';
   $$('#loginTabs .login-tab').forEach(b=>{
     const on = b.dataset.tab===loginTab;
     b.classList.toggle('active', on);
@@ -1514,9 +1604,11 @@ function setLoginTab(tab, focus){
   $$('.login-pane').forEach(p=> p.classList.toggle('hidden', p.dataset.pane!==loginTab));
   $('#loginSub').textContent = loginTab==='loja'
     ? 'Área da loja: acompanhe os pedidos, avance os status e fale com o cliente no WhatsApp.'
-    : 'Escolha como quer entrar: como cliente para pedir, ou como loja para gerenciar os pedidos.';
+    : loginTab==='entregador'
+    ? 'Área do entregador: veja as entregas atribuídas a você e avance cada etapa até a entrega.'
+    : 'Escolha como quer entrar: como cliente para pedir, como loja para gerenciar, ou como entregador para entregar.';
   if(focus && $('#loginModal').classList.contains('show')){
-    setTimeout(()=> (loginTab==='loja' ? $('#storeEmail') : $('#loginName')).focus(), 220);
+    setTimeout(()=> (loginTab==='loja' ? $('#storeEmail') : loginTab==='entregador' ? $('#deliveryEmail') : $('#loginName')).focus(), 220);
   }
 }
 function openLogin(tab){
@@ -1548,6 +1640,28 @@ $('#btnStoreLogin').addEventListener('click', doStoreLogin);
 [$('#storeEmail'), $('#storePass')].forEach(el=> el.addEventListener('keydown', e=>{
   if(e.key==='Enter') doStoreLogin();
 }));
+function doDeliveryLogin(){
+  const email = $('#deliveryEmail').value.trim().toLowerCase();
+  const pass  = $('#deliveryPass').value;
+  if(email!==CONFIG.deliveryLogin.email || pass!==CONFIG.deliveryLogin.password){
+    toast('E-mail ou senha do entregador inválidos. Use o acesso demo.','⚠️','warn');
+    return;
+  }
+  const courier = CONFIG.couriers.find(c=> c.email===CONFIG.deliveryLogin.email);
+  deliverySession = { courierId: courier.id, email: CONFIG.deliveryLogin.email, at: now() };
+  save('mkv_delivery_session', deliverySession);
+  $('#deliveryPass').value = '';
+  closeModal('#loginModal');
+  renderUser();
+  pushNotif('🛵','Entregador conectado',`Painel do entregador ativo (${courier.name}) — as etapas das suas entregas são avançadas por você.`);
+  toast(`Bem-vindo, ${courier.name}! 🛵`,'🧡');
+  location.hash = '#/entregador';
+  route();
+}
+$('#btnDeliveryLogin').addEventListener('click', doDeliveryLogin);
+[$('#deliveryEmail'), $('#deliveryPass')].forEach(el=> el.addEventListener('keydown', e=>{
+  if(e.key==='Enter') doDeliveryLogin();
+}));
 $('#btnAvatar').addEventListener('click', e=>{
   e.stopPropagation();
   openDropdown('#userDropdown', e.currentTarget);
@@ -1561,9 +1675,16 @@ $('#udLogout').addEventListener('click', ()=>{
     if(location.hash.startsWith('#/loja')) location.hash = '#/'; else route();
     return;
   }
+  if(deliverySession){
+    deliverySession = null; save('mkv_delivery_session', null); renderUser();
+    toast('Você saiu da área do entregador. 👋','🚪','warn');
+    if(location.hash.startsWith('#/entregador')) location.hash = '#/'; else route();
+    return;
+  }
   user = null; save('mkv_user', null); renderUser();
   toast('Você saiu da conta. Até logo! 👋','🚪','warn');
 });
+$('#udDelivery').addEventListener('click', ()=>{ closeAllDropdowns(); location.hash = '#/entregador'; });
 
 /* ---------------- Modais genéricos ---------------- */
 function openModal(sel){ $(sel).classList.add('show'); }
@@ -1895,6 +2016,7 @@ function createOrder(){
     createdAt: now(),
     timestamps: []
   };
+  if(order.method==='entrega') assignCourier(order);   // distribuição automática
   orders.unshift(order);
   save('mkv_orders', orders);
   lastOrder = order;
@@ -1972,7 +2094,7 @@ $('#ordersList').addEventListener('click', e=>{
 
 /* ---------------- Máquina de status (simulação) ---------------- */
 function advanceStatuses(){
-  if(storeSession) return;   // modo loja: simulação pausada, o avanço é manual no painel
+  if(storeSession || deliverySession) return;   // modo loja/entregador: simulação pausada, o avanço é manual
   const [t1,t2,t3] = CONFIG.statusAt;
   let changed = false;
   orders.forEach(o=>{
@@ -2032,8 +2154,11 @@ function doCheckout(){
   pushNotif('📥','Pedido recebido',`Pedido #${order.id} confirmado no valor de ${brl(order.total)}.`);
   // sucesso
   $('#successCode').textContent = '#'+order.id;
+  const dName = order.delivery ? (courierById(order.delivery.courierId) || {}).name : null;
   $('#successSub').textContent = order.method==='entrega'
-    ? 'Recebemos seu pedido e já estamos preparando. Confirmação aberta no WhatsApp!'
+    ? (dName
+        ? `Recebemos seu pedido e já estamos preparando. ${dName} 🛵 recebeu esta entrega (menor ETA até a loja)!`
+        : 'Recebemos seu pedido e já estamos preparando. Confirmação aberta no WhatsApp!')
     : 'Recebemos seu pedido. Estará pronto para retirada em ~'+CONFIG.pickupReadyMin+' min!';
   openModal('#successModal');
   renderOrders(); updateOrderBadge();
@@ -2217,6 +2342,7 @@ function renderStore(){
         <span class="so-code">#${o.id}</span>
         ${statusChip(o)}
         <span class="oc-chip">${o.method==='entrega' ? '🛵 Entrega' : '🏪 Retirada'}</span>
+        ${o.delivery ? `<span class="oc-chip onway">🏍️ ${esc((courierById(o.delivery.courierId)||{name:'—'}).name)}</span>` : ''}
         <span class="so-when">${quando}</span>
       </div>
       <div class="so-grid">
@@ -2270,23 +2396,195 @@ $('#viewStore').addEventListener('click', e=>{
   if(e.target.closest('#btnStoreGate')) openLogin('loja');
 });
 
+/* ============================================================
+   Painel do entregador (#/entregador)
+   Distribuição automática: cada entregador é pontuado pelo
+   MENOR TEMPO ESTIMADO TOTAL =
+     ETA até a loja (base + distância posição→loja × min/km)
+   + trecho loja→cliente (distância × min/km; 2,5 km se sem GPS)
+   + penalidade (min) por entrega em aberto.
+   O pedido vai para quem tiver o menor total.
+   ============================================================ */
+const deliveryStatus = ['Aguardando coleta','Indo para a loja','Pedido coletado','A caminho do cliente','Entregue'];
+const deliveryIcons  = ['📥','🏍️','🧾','🛵','✅'];
+
+function courierById(id){ return CONFIG.couriers.find(c=> c.id===id) || null; }
+function myCourier(){
+  return deliverySession ? courierById(deliverySession.courierId) : null;
+}
+function openDeliveriesOf(courierId){
+  return orders.filter(o=> o.delivery && o.delivery.courierId===courierId && o.delivery.status<4);
+}
+function etaToStoreKm(courier){
+  return haversine(courier.pos.lat, courier.pos.lng, CONFIG.store.lat, CONFIG.store.lng);
+}
+function etaToStoreMin(courier){
+  return Math.round(CONFIG.courierBaseMin + etaToStoreKm(courier)*CONFIG.etaPerKm);
+}
+function legToCustomerKm(order){
+  const g = order.address && order.address.geo;
+  return g ? haversine(CONFIG.store.lat, CONFIG.store.lng, g.lat, g.lng) : CONFIG.defaultLegKm;
+}
+function courierScore(order, courier){
+  const open    = openDeliveriesOf(courier.id).length;
+  const toStore = CONFIG.courierBaseMin + etaToStoreKm(courier)*CONFIG.etaPerKm;
+  const penalty = open * CONFIG.courierPenaltyMin;       // penalidade por entrega em aberto
+  const leg     = legToCustomerKm(order)*CONFIG.etaPerKm;
+  return { courier, open, toStore:Math.round(toStore), penalty:Math.round(penalty), leg:Math.round(leg), total:Math.round(toStore+leg+penalty) };
+}
+function assignCourier(order){
+  const scores = CONFIG.couriers.map(c=> courierScore(order,c)).sort((a,b)=> a.total-b.total || a.open-b.open);
+  const best = scores[0];
+  order.delivery = { courierId: best.courier.id, status: 0, timestamps: [now()] };
+  save('mkv_orders', orders);
+  if(storeSession) pushNotif('🛵','Pedido distribuído',`#${order.id} → ${best.courier.name} (ETA total ~${best.total} min).`);
+  toast(`Pedido #${order.id} distribuído: ${best.courier.name} 🛵 · menor ETA total (~${best.total} min)`,'📡','success',5200);
+  return best;
+}
+function advanceDelivery(id){
+  const o = orders.find(x=> x.id===id);
+  const me = myCourier();
+  if(!o || !me || !o.delivery || o.delivery.courierId!==me.id || o.delivery.status>=4) return;
+  o.delivery.status++;
+  o.delivery.timestamps[o.delivery.status] = now();
+  // sincroniza o status público (cliente/loja) sem regredir
+  const pub = [0,0,1,2,3][o.delivery.status];
+  if(pub>o.status){
+    o.status = pub;
+    o.timestamps[o.status] = now();
+    if(o.status>=2) onStatusChange(o, o.status);
+  }
+  save('mkv_orders', orders);
+  renderDelivery(); renderOrders(); renderStore(); updateOrderBadge();
+  toast(`Pedido #${o.id} → ${deliveryStatus[o.delivery.status]}`, deliveryIcons[o.delivery.status]);
+}
+function renderDelivery(){
+  const locked = !deliverySession;
+  $('#deliveryLock').classList.toggle('hidden', !locked);
+  $('#deliveryPanel').classList.toggle('hidden', locked);
+  if(locked) return;
+  const me = myCourier();
+  const mine = orders.filter(o=> o.delivery && o.delivery.courierId===me.id).sort((a,b)=> b.createdAt-a.createdAt);
+  const active = mine.filter(o=> o.delivery.status<4).length;
+  const done   = mine.filter(o=> o.delivery.status===4).length;
+  const etaLoja = etaToStoreMin(me);
+  $('#deliverySub').textContent = `${me.name} · ${active} entrega${active===1?'':'s'} em aberto · ETA até a loja ~${etaLoja} min`;
+  $('#deliveryStats').innerHTML = [
+    ['🔥','Entregas em aberto', String(active), `atribuídas a ${me.name}`],
+    ['✅','Entregues', String(done), `no total: ${mine.length}`],
+    ['🏪','ETA até a loja', '~'+etaLoja+' min', `penalidade: ${CONFIG.courierPenaltyMin} min por entrega aberta`]
+  ].map(([ico,label,value,sub])=>`
+    <div class="stat-card">
+      <div class="sc-ico">${ico}</div>
+      <div class="sc-label">${label}</div>
+      <div class="sc-value">${value}</div>
+      <div class="sc-sub">${sub}</div>
+    </div>`).join('');
+
+  const list = mine.filter(o=> deliveryFilter==='concluidas' ? o.delivery.status===4
+                              : deliveryFilter==='todas' ? true
+                              : o.delivery.status<4);
+  const box = $('#deliveryList');
+  if(!list.length){
+    box.innerHTML = `
+      <div class="store-empty">
+        <span class="se-ico">🛵</span>
+        <b>Nenhuma entrega nesse filtro</b>
+        <span>Quando um novo pedido de entrega for distribuído para você, ele aparece aqui na hora.</span>
+        <a class="btn btn-line" href="#/">🍔 Abrir cardápio</a>
+      </div>`;
+    return;
+  }
+  box.innerHTML = list.map(o=>{
+    const d = o.delivery;
+    const quando = new Date(o.createdAt).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
+    const endereco = [
+      o.address.street && `${esc(o.address.street)}, ${esc(o.address.number||'s/n')}`,
+      o.address.district && esc(o.address.district),
+      o.address.cep && 'CEP ' + esc(o.address.cep),
+      o.address.ref && 'Ref.: ' + esc(o.address.ref),
+      o.address.notes && 'Obs.: ' + esc(o.address.notes)
+    ].filter(Boolean).join('<br>') || '—';
+    const chipCls = d.status===4 ? 'delivered' : d.status>=3 ? 'onway' : '';
+    return `
+    <article class="store-order">
+      <div class="so-top">
+        <span class="so-code">#${o.id}</span>
+        <span class="oc-chip ${chipCls}">${deliveryIcons[d.status]} ${deliveryStatus[d.status]}</span>
+        <span class="oc-chip">🛵 ${esc(me.name)}</span>
+        <span class="so-when">${quando}</span>
+      </div>
+      <div class="so-grid">
+        <div>
+          <div class="so-label">Itens (${o.items.reduce((a,i)=>a+i.qty,0)})</div>
+          <div class="so-val">${o.items.map(i=>`${i.qty}× ${esc(i.name)}`).join('<br>')}</div>
+          <div class="so-val" style="margin-top:8px"><b>Total: ${brl(o.total)}</b></div>
+        </div>
+        <div>
+          <div class="so-label">Cliente</div>
+          <div class="so-val">
+            <b>${esc(o.customer.name)}</b><br />
+            <a href="${waCustomerLink(o)}" target="_blank" rel="noopener">${esc(o.customer.phone)} · WhatsApp</a>
+          </div>
+          <div class="so-label" style="margin-top:10px">Endereço de entrega</div>
+          <div class="so-val">${endereco}</div>
+          <div class="so-label" style="margin-top:10px">ETA até a loja</div>
+          <div class="so-val">~${etaLoja} min a partir da sua posição 📍</div>
+        </div>
+      </div>
+      <div class="stepper-track">
+        ${deliveryStatus.map((n,i)=>`
+          <div class="step ${d.status>i?'done':''} ${d.status===i&&d.status<4?'current':''}">
+            <div class="st-dot">${d.status>=i?deliveryIcons[i]:'·'}</div>
+            <div class="st-line"></div>
+            <div class="st-label">${n}</div>
+            <div class="st-time">${d.timestamps[i]?timeHM(d.timestamps[i]):(d.status===i?'agora':'—')}</div>
+          </div>`).join('')}
+      </div>
+      <div class="so-actions">
+        <button class="btn btn-advance" data-dadv="${o.id}" ${d.status>=4?'disabled':''}>
+          ${d.status>=4 ? '✅ Entregue' : '⏭️ Avançar para: ' + deliveryStatus[d.status+1]}
+        </button>
+        <a class="btn btn-store-wa" href="${waCustomerLink(o)}" target="_blank" rel="noopener">💬 WhatsApp do cliente</a>
+      </div>
+    </article>`;
+  }).join('');
+}
+$('#viewDelivery').addEventListener('click', e=>{
+  const adv = e.target.closest('[data-dadv]');
+  if(adv){ advanceDelivery(adv.dataset.dadv); return; }
+  const f = e.target.closest('[data-dfilter]');
+  if(f){
+    deliveryFilter = f.dataset.dfilter;
+    $$('#deliveryFilter .chip').forEach(c=> c.classList.toggle('active', c.dataset.dfilter===deliveryFilter));
+    renderDelivery();
+    return;
+  }
+  if(e.target.closest('#btnDeliveryGate')) openLogin('entregador');
+});
+
 /* ---------------- Router ---------------- */
 function route(){
   const hash = location.hash;
   const store = hash.startsWith('#/loja');
-  const ordersView = !store && hash.startsWith('#/pedidos');
-  const home = !store && !ordersView;
+  const delivery = !store && hash.startsWith('#/entregador');
+  const ordersView = !store && !delivery && hash.startsWith('#/pedidos');
+  const home = !store && !delivery && !ordersView;
   $('#viewHome').classList.toggle('hidden', !home);
   $('#viewOrders').classList.toggle('hidden', !ordersView);
   $('#viewStore').classList.toggle('hidden', !store);
+  $('#viewDelivery').classList.toggle('hidden', !delivery);
   $('#navHome').classList.toggle('active', home);
   $('#mnavHome').classList.toggle('active', home);
   $('#navOrders').classList.toggle('active', ordersView);
   $('#mnavOrders').classList.toggle('active', ordersView);
   $('#navStore').classList.toggle('active', store);
   $('#mnavStore').classList.toggle('active', store);
+  $('#navDelivery').classList.toggle('active', delivery);
+  $('#mnavDelivery').classList.toggle('active', delivery);
   if(ordersView) renderOrders();
   if(store) renderStore();
+  if(delivery) renderDelivery();
   window.scrollTo(0, 0);
 }
 window.addEventListener('hashchange', route);
@@ -2301,6 +2599,7 @@ function init(){
   syncAddrForm();
   renderCartBar();
   renderOrders();
+  renderDelivery();
   updateOrderBadge();
   route();
   // reveal on scroll
